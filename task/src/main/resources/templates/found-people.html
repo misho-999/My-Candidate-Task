@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="~{fragments/head}"/>
+</head>
+
+<link rel="stylesheet" href="/css/allDestinations.css">
+
+<body class="container-fluid destinations">
+
+<header>
+    <th:block th:include="~{fragments/navbar}"/>
+</header>
+
+<main class="mt-3 bg-blur">
+    <h1 class="text-center welcome">All People</h1>
+
+    <table class="table table-hover w-75 mx-auto label-color font-weight-bold">
+        <thead>
+        <tr class="row mx-auto">
+            <th class="col-md-1 text-center">#</th>
+            <th class="col-md-2 text-center">Full Name</th>
+            <th class="col-md-1 text-center">PIN</th>
+        </tr>
+        </thead>
+        <tbody id="destinations-table">
+        <th:block th:each="person, iter : ${people}">
+            <tr class="row mx-auto">
+                <td class="col-md-1 text-center" th:text="${iter.index + 1}"></td>
+                <td class="col-md-1 text-center" th:text="${person.fullName}"></td>
+                <td class="col-md-2 text-center" th:text="${person.pin}"></td>
+                <td class="col-md-5 text-left add-button">
+                    <ul class="nav">
+                        <li>
+                            <a th:href="@{/edit-person/{fullName}(fullName=${person.pin})}"
+                               class="btn btn-success font-weight-bold text-white btn-sm ml-5">Edit</a>
+<!--                            <a th:href="@{/destinations/delete/{id}(id=${destination.id})}"-->
+<!--                               class="btn btn-danger font-weight-bold text-white btn-sm">Delete</a>-->
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+</main>
+
+</body>
+
+</html>

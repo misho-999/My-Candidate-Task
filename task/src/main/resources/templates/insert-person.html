@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+
+<body class="container-fluid">
+<header>
+    <th:block th:include="~{fragments/navbar}"></th:block>
+</header>
+<h1>Insert person</h1>
+<main>
+    <div class="container-fluid">
+        <div class="row justify-content-md-center text-center">
+            <form class="form w-25 mx-auto" th:action="@{/insert-person}" th:method="post" th:object="${model}">
+                <div class="form-row">
+                    <div class="form-group col-md ">
+                        <label for="fullName"><em><strong class="label-color">Full Name</strong></em></label>
+                        <input type="text" class="form-control" id="fullName" placeholder="Full Name..." name="fullName"
+                               th:value="*{fullName}">
+                        <th:block th:if="${#fields.hasErrors('fullName')}">
+                            <small class="error text-danger" th:errors="*{fullName}"></small>
+                        </th:block>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md ">
+                        <label for="pin"><em><strong class="label-color">PIN</strong></em></label>
+                        <input type="text" class="form-control" id="pin" placeholder="PIN..." name="pin"
+                               th:value="*{pin}">
+                        <th:block th:if="${#fields.hasErrors('pin')}">
+                            <small class="error text-danger" th:errors="*{pin}"></small>
+                        </th:block>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md ">
+                        <label for="emailType"><em><strong class="label-color">Email Type</strong></em></label>
+                        <input type="text" class="form-control" id="emailType" placeholder="Email Type..." name="emailType"
+                               th:value="*{emailType}">
+                        <th:block th:if="${#fields.hasErrors('emailType')}">
+                            <small class="error text-danger" th:errors="*{emailType}"></small>
+                        </th:block>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md ">
+                        <label for="email"> <em> <strong class="label-color ">Email</strong></em></label>
+                        <input type="email" class="form-control" id="email" placeholder="Email..." name="email"
+                               th:value="*{email}">
+                        <th:block th:if="${#fields.hasErrors('email')}">
+                            <small class="error text-danger" th:errors="*{email}"></small>
+                        </th:block>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md ">
+                        <label for="addressType"><em><strong class="label-color">Address Type</strong></em></label>
+                        <input type="text" class="form-control" id="addressType" placeholder="Address Type..." name="addressType"
+                               th:value="*{addressType}">
+                        <th:block th:if="${#fields.hasErrors('addressType')}">
+                            <small class="error text-danger" th:errors="*{addressType}"></small>
+                        </th:block>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md ">
+                        <label for="addressInfo"><em><strong class="label-color">Address Info</strong></em></label>
+                        <input type="text" class="form-control" id="addressInfo" placeholder="Address Info..." name="addressInfo"
+                               th:value="*{addressInfo}">
+                        <th:block th:if="${#fields.hasErrors('addressInfo')}">
+                            <small class="error text-danger" th:errors="*{addressInfo}"></small>
+                        </th:block>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Insert</button>
+            </form>
+        </div>
+    </div>
+    </div>
+</main>
+</body>
+
+</html>
