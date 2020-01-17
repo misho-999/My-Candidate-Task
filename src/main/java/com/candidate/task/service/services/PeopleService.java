@@ -8,10 +8,12 @@ public interface PeopleService {
 
     List<PersonServiceModel> findPeopleByFullName(String username);
 
-    PersonServiceModel findPersonByPin(String pin);
+    PersonServiceModel findPersonById(Long email);
 
     PersonServiceModel insertPeople(PersonServiceModel personServiceModel);
 
-    PersonServiceModel editPerson(String pin, PersonServiceModel personServiceModel);
+    PersonServiceModel editPerson(Long pin, PersonServiceModel personServiceModel);
+
+    void deletePerson(Long id);
 
 }

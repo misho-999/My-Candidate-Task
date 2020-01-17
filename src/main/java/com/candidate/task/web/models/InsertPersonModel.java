@@ -1,6 +1,6 @@
 package com.candidate.task.web.models;
 
-public class InsertPersonModel {
+public class InsertPersonModel implements BasePersonModel {
     private String fullName;
     private String pin;
     private String emailType;

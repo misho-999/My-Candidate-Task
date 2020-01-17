@@ -1,6 +1,7 @@
 package com.candidate.task.service.models;
 
 public class PersonServiceModel {
+    private Long id;
     private String fullName;
     private String pin;
     private String emailType;
@@ -9,6 +10,14 @@ public class PersonServiceModel {
     private String addressInfo;
 
     public PersonServiceModel() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFullName() {

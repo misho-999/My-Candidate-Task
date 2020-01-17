@@ -1,6 +1,7 @@
 package com.candidate.task.web.models;
 
-public class EditPersonModel {
+public class EditPersonModel implements BasePersonModel {
+    private Long id;
     private String fullName;
     private String pin;
     private String emailType;
@@ -9,6 +10,14 @@ public class EditPersonModel {
     private String addressInfo;
 
     public EditPersonModel() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFullName() {

@@ -13,7 +13,5 @@ import java.util.Optional;
 public interface MailRepository extends JpaRepository<Mail, Long> {
     Optional<Mail> findByEmail(String email);
 
-   Mail findByPersonPin(String pin);
-//    @Query("SELECT d from Destination d JOIN d.userInfos u where u.user.username = :username")
-//    List<Destination> findDestinationsByUsername(String username);
+    Mail findByPersonId(Long personId);
 }

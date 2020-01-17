@@ -34,10 +34,10 @@
                 <td class="col-md-5 text-left add-button">
                     <ul class="nav">
                         <li>
-                            <a th:href="@{/edit-person/{fullName}(fullName=${person.pin})}"
+                            <a th:href="@{/edit/{id}(id=${person.id})}"
                                class="btn btn-success font-weight-bold text-white btn-sm ml-5">Edit</a>
-<!--                            <a th:href="@{/destinations/delete/{id}(id=${destination.id})}"-->
-<!--                               class="btn btn-danger font-weight-bold text-white btn-sm">Delete</a>-->
+                            <a th:href="@{/delete/{id}(id=${person.id})}"
+                               class="btn btn-danger font-weight-bold text-white btn-sm">Delete</a>
                         </li>
                     </ul>
                 </td>

@@ -1,9 +1,6 @@
 package com.candidate.task.data.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +19,6 @@ public class Person extends BaseEntity {
     }
 
     @Column(name = "FULL_NAME", length = 90, nullable = false)
-    @Pattern(regexp = "[a-zA-Zа-яА-Я -]*", message = "Name is not valid")
     public String getFullName() {
         return fullName;
     }
@@ -31,7 +27,7 @@ public class Person extends BaseEntity {
         this.fullName = fullName;
     }
 
-    @Column(name = "PIN", length = 10, unique = true)
+    @Column(name = "PIN", length = 10)
     public String getPin() {
         return pin;
     }
@@ -40,7 +36,7 @@ public class Person extends BaseEntity {
         this.pin = pin;
     }
 
-    @OneToMany(mappedBy = "person")
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
     public List<Mail> getMails() {
         return mails;
     }
@@ -49,7 +45,7 @@ public class Person extends BaseEntity {
         this.mails = mails;
     }
 
-    @OneToMany(mappedBy = "person")
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
     public List<Address> getAddresses() {
         return addresses;
     }

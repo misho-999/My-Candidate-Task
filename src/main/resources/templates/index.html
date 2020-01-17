@@ -13,12 +13,20 @@
 </header>
 
 <main class="back-index">
-    <div>
+    <div class="container-fluid text-center">
 
-        <h1>Welcome to my Java Task application!!!</h1>
+        <h1 class="text-primary p-4">Java Candidate Task application!!!</h1>
 
-        <th:block th:if="${successMessage} != null">
-            <div class="welcome"><p th:text="'Successfully adding: ' + ${successMessage}"></div>
+        <th:block th:if="${successInsertMessage} != null">
+            <div class="text-success h3"><p th:text="'Successfully added: ' + ${successInsertMessage}"></div>
+        </th:block>
+
+        <th:block th:if="${successEditMessage} != null">
+            <div class="text-success h3"><p th:text="'Successfully edited: ' + ${successEditMessage}"></div>
+        </th:block>
+
+        <th:block th:if="${successDeleteMessage} != null">
+            <div class="text-success h3"><p th:text="'Successfully deleted: ' + ${successDeleteMessage}"></div>
         </th:block>
     </div>
 </main>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+
+<body class="container-fluid">
+<header>
+    <th:block th:include="~{fragments/navbar}"></th:block>
+</header>
+
+<main>
+    <div class="container-fluid text-center">
+        <h1 class="text-danger" th:text="'Are you sure you want to delete: ' + ${model.fullName} + '?'"></h1>
+        <div class="row">
+            <div class="col-md-2 offset-4">
+                <form class="form w-25 mx-auto"
+                      th:action="@{/delete/{id}/{fullName}(id=${id}, fullName=${model.fullName})}"
+                      th:method="post" th:object="${model}">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+            <div class="col-md-2">
+                <a class="btn btn-outline-danger btn-group" th:href="@{/}">Cancel</a>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

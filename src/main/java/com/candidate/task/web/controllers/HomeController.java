@@ -1,9 +1,10 @@
 package com.candidate.task.web.controllers;
 
+import com.candidate.task.errors.EmailNotFoundException;
+import com.candidate.task.errors.PersonNotFoundException;
 import com.candidate.task.service.models.PersonServiceModel;
 import com.candidate.task.service.services.PeopleService;
-import com.candidate.task.validation.InsertPersonValidator;
-import com.candidate.task.validation.annotation.EditPersonValidator;
+import com.candidate.task.validation.PersonValidator;
 import com.candidate.task.web.models.EditPersonModel;
 import com.candidate.task.web.models.FindPersonModel;
 import com.candidate.task.web.models.InsertPersonModel;
@@ -24,15 +25,13 @@ public class HomeController extends BaseController {
 
     private final PeopleService peopleService;
     private final ModelMapper modelMapper;
-    private final InsertPersonValidator insertPersonValidator;
-    private final EditPersonValidator editPersonValidator;
+    private final PersonValidator personValidator;
 
     @Autowired
-    public HomeController(PeopleService peopleService, ModelMapper modelMapper, InsertPersonValidator insertPersonValidator, EditPersonValidator editPersonValidator) {
+    public HomeController(PeopleService peopleService, ModelMapper modelMapper, PersonValidator personValidator) {
         this.peopleService = peopleService;
         this.modelMapper = modelMapper;
-        this.insertPersonValidator = insertPersonValidator;
-        this.editPersonValidator = editPersonValidator;
+        this.personValidator = personValidator;
     }
 
     @GetMapping("/")
@@ -40,7 +39,7 @@ public class HomeController extends BaseController {
         return super.view("index.html");
     }
 
-    @PostMapping("/find-person")
+    @PostMapping("/find")
     public ModelAndView findPerson(ModelAndView modelAndView, @ModelAttribute(name = "model") FindPersonModel model) {
 
         List<PersonViewModel> people = this.peopleService.findPeopleByFullName(model.getFullName()).stream()
@@ -49,46 +48,39 @@ public class HomeController extends BaseController {
 
         modelAndView.addObject("people", people);
 
-        return super.view("found-people.html", modelAndView);
+        return super.view("all-found-people.html", modelAndView);
     }
 
-    @GetMapping("/details-person")
-    public ModelAndView detailsPerson() {
-        return super.view("details-person");
-    }
-
-    @GetMapping("/insert-person")
+    @GetMapping("/add")
     public ModelAndView insertPerson(ModelAndView modelAndView, @ModelAttribute(name = "model") InsertPersonModel model) {
         modelAndView.addObject("model", model);
 
-        return super.view("insert-person");
+        return super.view("add-person");
     }
 
-    @PostMapping("/insert-person")
+    @PostMapping("/add")
     public ModelAndView insertConfirm(@Valid ModelAndView modelAndView, @ModelAttribute(name = "model") InsertPersonModel model
             , BindingResult bindingResult) {
 
-        this.insertPersonValidator.validate(model, bindingResult);
+        this.personValidator.validate(model, bindingResult);
 
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("model", model);
 
-            return super.view("insert-person.html", modelAndView);
+            return super.view("add-person.html", modelAndView);
         }
 
-        PersonServiceModel personServiceModel = this.modelMapper.map(model, PersonServiceModel.class);
+        PersonServiceModel personServiceModel = this.peopleService.insertPeople(this.modelMapper.map(model, PersonServiceModel.class));
 
-        this.peopleService.insertPeople(personServiceModel);
-        modelAndView.addObject("successMessage", personServiceModel.getFullName());
+        modelAndView.addObject("successInsertMessage", personServiceModel.getFullName());
 
         return super.view("index.html", modelAndView);
     }
 
-    @GetMapping("/edit-person/{pin}")
-    public ModelAndView editPerson(@PathVariable String pin, ModelAndView modelAndView, @ModelAttribute(name = "model") EditPersonModel model) {
 
-        //Principal principal, ModelAndView modelAndView, @ModelAttribute(name = "model") UserEditBindingModel model
-        PersonServiceModel personServiceModel = this.peopleService.findPersonByPin(pin);
+    @GetMapping("/edit/{id}")
+    public ModelAndView editPerson(@PathVariable Long id, ModelAndView modelAndView, @ModelAttribute(name = "model") EditPersonModel model) {
+        PersonServiceModel personServiceModel = this.peopleService.findPersonById(id);
         model = this.modelMapper.map(personServiceModel, EditPersonModel.class);
 
         modelAndView.addObject("model", model);
@@ -96,26 +88,71 @@ public class HomeController extends BaseController {
         return super.view("edit-person.html", modelAndView);
     }
 
-    @PostMapping("/edit-person/{pin}")
-    public ModelAndView editDestinationConfirm(@PathVariable String pin, ModelAndView modelAndView, @ModelAttribute(name = "model") EditPersonModel model
+    @PostMapping("/edit/{id}")
+    public ModelAndView editDestinationConfirm(@PathVariable Long id, ModelAndView modelAndView, @ModelAttribute(name = "model") EditPersonModel model
             , BindingResult bindingResult) {
 
-        this.editPersonValidator.validate(model, bindingResult);
+        this.personValidator.validate(model, bindingResult);
 
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("model", model);
-            modelAndView.addObject("lastPin", pin);
+
             return super.view("edit-person.html", modelAndView);
         }
 
-        this.peopleService.editPerson(pin, this.modelMapper.map(model, PersonServiceModel.class));
+        PersonServiceModel personServiceModel = this.peopleService.editPerson(id, this.modelMapper.map(model, PersonServiceModel.class));
 
-        //TODO VALIDATION!!!!
-        //TODO Поазване на вцички параметри на All People 6бр.!!!!
-        //TODO При натискане на сърч с празен вход мята грешка.!!!!
-        //TODO При повторно дитване с корекция на .!!!!
+        modelAndView.addObject("successEditMessage", personServiceModel.getFullName());
+
+        return super.view("index.html", modelAndView);
+    }
+
+    @GetMapping("/delete/{id}")
+    public ModelAndView deletePerson(@PathVariable Long id, ModelAndView modelAndView) {
+        PersonServiceModel personServiceModel = this.peopleService.findPersonById(id);
+        PersonViewModel personViewModel = this.modelMapper.map(personServiceModel, PersonViewModel.class);
+
+        modelAndView.addObject("model", personViewModel);
+        modelAndView.addObject("id", id);
+
+        return super.view("delete-person.html", modelAndView);
+    }
+
+    @PostMapping("/delete/{id}/{fullName}")
+    public ModelAndView deletePersonConfirm(@PathVariable Long id, @PathVariable String fullName) {
+        this.peopleService.deletePerson(id);
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("successDeleteMessage", fullName);
+
+        return super.view("index.html", modelAndView);
+    }
 
 
-        return super.redirect("/");
+
+    @ExceptionHandler({PersonNotFoundException.class})
+    public ModelAndView handlePersonNotFoundException(PersonNotFoundException e) {
+        ModelAndView modelAndView = new ModelAndView("error.html");
+        modelAndView.addObject("message", e.getMessage());
+        modelAndView.addObject("statusCode", e.getStatusCode());
+
+        return modelAndView;
+    }
+
+    @ExceptionHandler({EmailNotFoundException.class})
+    public ModelAndView handleEmailNotFoundException(EmailNotFoundException e) {
+        ModelAndView modelAndView = new ModelAndView("error.html");
+        modelAndView.addObject("message", e.getMessage());
+        modelAndView.addObject("statusCode", e.getStatusCode());
+
+        return modelAndView;
     }
 }
+
+
+//TODO Изваждане на повтарящата се логика от валидаторите в базов клас!!!!
+//TODO VALIDATION!!!!
+//TODO Поазване на вцички параметри на All People 6бр.!!!!
+//TODO При натискане на сърч с празен вход мята грешка.!!!!
+//TODO При повторно дитване с корекция на .!!!!
+//TODO Да се изтрие MailNotFoundException ако не се ползва!!!!

@@ -14,7 +14,7 @@
 <main>
     <div class="container-fluid">
         <div class="row justify-content-md-center text-center">
-            <form class="form w-25 mx-auto" th:action="@{/edit-person/{pin}(pin=${pin})}" th:method="post" th:object="${model}">
+            <form class="form w-25 mx-auto" th:action="@{/edit/{id}(id=${id})}" th:method="post" th:object="${model}">
                 <div class="form-row">
                     <div class="form-group col-md">
                         <label for="fullName"><em><strong class="label-color">Full Name</strong></em></label>
@@ -46,16 +46,6 @@
                         </th:block>
                     </div>
                 </div>
-<!--                <div class="form-row">-->
-<!--                    <div class="form-group col-md ">-->
-<!--                        <label for="emailType"><em><strong class="label-color">Email Type</strong></em></label>-->
-<!--                        <input type="text" class="form-control" id="emailType" placeholder="Email Type..." name="emailType"-->
-<!--                               th:value="${emailType}">-->
-<!--                        <th:block th:if="${#fields.hasErrors('emailType')}">-->
-<!--                            <small class="error text-danger" th:errors="*{emailType}"></small>-->
-<!--                        </th:block>-->
-<!--                    </div>-->
-<!--                </div>-->
                 <div class="form-row">
                     <div class="form-group col-md ">
                         <label for="email"> <em> <strong class="label-color ">Email</strong></em></label>
@@ -84,7 +74,7 @@
                                name="addressInfo"
                                th:value="${model.addressInfo}">
                         <th:block th:if="${#fields.hasErrors('addressInfo')}">
-                            <small class="error text-danger" th:errors="*{ddressInfo}"></small>
+                            <small class="error text-danger" th:errors="*{addressInfo}"></small>
                         </th:block>
                     </div>
                 </div>

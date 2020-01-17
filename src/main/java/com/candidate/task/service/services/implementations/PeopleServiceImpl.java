@@ -6,6 +6,7 @@ import com.candidate.task.data.models.Person;
 import com.candidate.task.data.repositories.AddressRepository;
 import com.candidate.task.data.repositories.MailRepository;
 import com.candidate.task.data.repositories.PeopleRepository;
+import com.candidate.task.errors.EmailNotFoundException;
 import com.candidate.task.errors.PersonNotFoundException;
 import com.candidate.task.service.models.PersonServiceModel;
 import com.candidate.task.service.services.PeopleService;
@@ -34,7 +35,6 @@ public class PeopleServiceImpl implements PeopleService {
         this.modelMapper = modelMapper;
     }
 
-
     @Override
     public List<PersonServiceModel> findPeopleByFullName(String fullName) {
         List<Person> people = this.peopleRepository.findAllByFullName(fullName);
@@ -48,14 +48,14 @@ public class PeopleServiceImpl implements PeopleService {
     }
 
     @Override
-    public PersonServiceModel findPersonByPin(String pin) {
-        Person person = this.peopleRepository.findByPin(pin)
+    public PersonServiceModel findPersonById(Long id) {
+        Person person = this.peopleRepository.findById(id)
                 .orElseThrow(() -> new PersonNotFoundException("Person not found"));
 
         PersonServiceModel personServiceModel = this.modelMapper.map(person, PersonServiceModel.class);
 
-        Mail mail = this.mailRepository.findByPersonPin(pin);
-        Address address = this.addressRepository.findByPersonPin(pin);
+        Mail mail = this.mailRepository.findByPersonId(id);
+        Address address = this.addressRepository.findByPersonId(id);
 
         personServiceModel.setEmailType(mail.getEmailType());
         personServiceModel.setEmail(mail.getEmail());
@@ -87,12 +87,12 @@ public class PeopleServiceImpl implements PeopleService {
     }
 
     @Override
-    public PersonServiceModel editPerson(String pin, PersonServiceModel personServiceModel) {
-        Person person = this.peopleRepository.findByPin(pin)
+    public PersonServiceModel editPerson(Long id, PersonServiceModel personServiceModel) {
+        Person person = this.peopleRepository.findById(id)
                 .orElseThrow(() -> new PersonNotFoundException("Person not found"));
 
-        Mail mail = this.mailRepository.findByPersonPin(pin);
-        Address address = this.addressRepository.findByPersonPin(pin);
+        Mail mail = this.mailRepository.findByPersonId(id);
+        Address address = this.addressRepository.findByPersonId(id);
 
         person.setFullName(personServiceModel.getFullName());
         person.setPin(personServiceModel.getPin());
@@ -108,5 +108,13 @@ public class PeopleServiceImpl implements PeopleService {
         this.peopleRepository.save(person);
 
         return personServiceModel;
+    }
+
+    @Override
+    public void deletePerson(Long id) {
+        Person person = this.peopleRepository.findById(id)
+                .orElseThrow(() -> new PersonNotFoundException("Person not found"));
+
+        this.peopleRepository.delete(person);
     }
 }

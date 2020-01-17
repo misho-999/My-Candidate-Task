@@ -1,6 +1,7 @@
 package com.candidate.task.web.models;
 
 public class PersonViewModel {
+    private Long id;
     private String fullName;
     private String pin;
     private String emailType;
@@ -10,6 +11,14 @@ public class PersonViewModel {
 
 
     public PersonViewModel() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFullName() {
