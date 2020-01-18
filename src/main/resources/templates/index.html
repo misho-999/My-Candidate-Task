@@ -15,7 +15,7 @@
 <main class="back-index">
     <div class="container-fluid text-center">
 
-        <h1 class="text-primary p-4">Java Candidate Task application!!!</h1>
+        <h1 class="text-primary p-4">Java Candidate Task application!</h1>
 
         <th:block th:if="${successInsertMessage} != null">
             <div class="text-success h3"><p th:text="'Successfully added: ' + ${successInsertMessage}"></div>
@@ -27,6 +27,13 @@
 
         <th:block th:if="${successDeleteMessage} != null">
             <div class="text-success h3"><p th:text="'Successfully deleted: ' + ${successDeleteMessage}"></div>
+        </th:block>
+
+        <th:block th:switch="${successfulSeedTables}">
+            <div th:case="true" class="text-success h3"><p th:text="'Successfully Seeded People, Mail, and Addresses!'">
+            </div>
+            <div th:case="false" class="text-warning h3"><p
+                    th:text="'People, Mail, and Addresses are alreasy Seeded!'"></div>
         </th:block>
     </div>
 </main>

@@ -13,5 +13,7 @@ public final class ValidationConstrains {
     public static final int ADDRESS_TYPE_MAX_LENGTH = 5;
     public static final int ADDRESS_INFO_MAX_LENGTH = 300;
 
+    public static final int SEED_MAX_COUNT = 7;
+
 
 }

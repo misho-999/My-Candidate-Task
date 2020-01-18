@@ -7,8 +7,6 @@ import com.candidate.task.data.repositories.PeopleRepository;
 import com.candidate.task.validation.annotation.Validator;
 
 import com.candidate.task.web.models.BasePersonModel;
-import com.candidate.task.web.models.EditPersonModel;
-import com.candidate.task.web.models.InsertPersonModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 
@@ -34,59 +32,59 @@ public class PersonValidator implements org.springframework.validation.Validator
 
     @Override
     public void validate(Object o, Errors errors) {
-        BasePersonModel insertPersonModel = (BasePersonModel) o;
+        BasePersonModel personModel = (BasePersonModel) o;
 
-        if (insertPersonModel.getFullName().length() > ValidationConstrains.FULL_NAME_MAX_LENGTH) {
+        if (personModel.getFullName().length() > ValidationConstrains.FULL_NAME_MAX_LENGTH) {
             errors.rejectValue(
                     "fullName",
                     ValidationMessages.FULL_NAME_TOO_LONG,
                     ValidationMessages.FULL_NAME_TOO_LONG);
         }
 
-        if (!Pattern.matches(ValidationConstrains.FULL_NAME_REGEX, insertPersonModel.getFullName())) {
+        if (!Pattern.matches(ValidationConstrains.FULL_NAME_REGEX, personModel.getFullName())) {
             errors.rejectValue(
                     "fullName",
                     ValidationMessages.FULL_NAME_NOT_MATCH,
                     ValidationMessages.FULL_NAME_NOT_MATCH);
         }
 
-        if (insertPersonModel.getPin().length() != ValidationConstrains.PIN_LENGTH
-                && insertPersonModel.getPin().length() != ValidationConstrains.ZERO) {
+        if (personModel.getPin().length() != ValidationConstrains.PIN_LENGTH
+                && personModel.getPin().length() != ValidationConstrains.ZERO) {
             errors.rejectValue(
                     "pin",
                     ValidationMessages.PIN_LENGTH,
                     ValidationMessages.PIN_LENGTH);
         }
 
-        if (insertPersonModel.getEmailType().length() > ValidationConstrains.EMAIL_TYPE_MAX_LENGTH) {
+        if (personModel.getEmailType().length() > ValidationConstrains.EMAIL_TYPE_MAX_LENGTH) {
             errors.rejectValue(
                     "emailType",
                     ValidationMessages.EMAIL_TYPE_TOO_LONG,
                     ValidationMessages.EMAIL_TYPE_TOO_LONG);
         }
 
-        if (insertPersonModel.getEmail().length() > ValidationConstrains.EMAIL_MAX_LENGTH) {
+        if (personModel.getEmail().length() > ValidationConstrains.EMAIL_MAX_LENGTH) {
             errors.rejectValue(
                     "email",
                     ValidationMessages.EMAIL_TOO_LONG,
                     ValidationMessages.EMAIL_TOO_LONG);
         }
 
-        if (!Pattern.matches(ValidationConstrains.EMAIL_REGEX, insertPersonModel.getEmail())) {
+        if (!Pattern.matches(ValidationConstrains.EMAIL_REGEX, personModel.getEmail())) {
             errors.rejectValue(
                     "email",
                     ValidationMessages.EMAIL_NOT_MATCH,
                     ValidationMessages.EMAIL_NOT_MATCH);
         }
 
-        if (insertPersonModel.getAddressType().length() > ValidationConstrains.ADDRESS_TYPE_MAX_LENGTH) {
+        if (personModel.getAddressType().length() > ValidationConstrains.ADDRESS_TYPE_MAX_LENGTH) {
             errors.rejectValue(
                     "addressType",
                     ValidationMessages.ADDRESS_TYPE_TOO_LONG,
                     ValidationMessages.ADDRESS_TYPE_TOO_LONG);
         }
 
-        if (insertPersonModel.getAddressInfo().length() > ValidationConstrains.ADDRESS_INFO_MAX_LENGTH) {
+        if (personModel.getAddressInfo().length() > ValidationConstrains.ADDRESS_INFO_MAX_LENGTH) {
             errors.rejectValue(
                     "addressInfo",
                     ValidationMessages.ADDRESS_INFO_TOO_LONG,

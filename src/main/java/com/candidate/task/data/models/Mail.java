@@ -1,5 +1,7 @@
 package com.candidate.task.data.models;
 
+import com.candidate.task.constants.ValidationConstrains;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,7 +14,7 @@ public class Mail extends BaseEntity {
     public Mail() {
     }
 
-    @Column(name = "EMAIL_TYPE", length = 5, nullable = false)
+    @Column(name = "EMAIL_TYPE", length = ValidationConstrains.EMAIL_TYPE_MAX_LENGTH, nullable = false)
     public String getEmailType() {
         return emailType;
     }
@@ -22,7 +24,7 @@ public class Mail extends BaseEntity {
     }
 
 
-    @Column(name = "EMAIL", length = 40)
+    @Column(name = "EMAIL", length = ValidationConstrains.EMAIL_MAX_LENGTH)
     public String getEmail() {
         return email;
     }

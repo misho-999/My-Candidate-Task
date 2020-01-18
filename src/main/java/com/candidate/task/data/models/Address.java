@@ -1,5 +1,7 @@
 package com.candidate.task.data.models;
 
+import com.candidate.task.constants.ValidationConstrains;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -13,7 +15,7 @@ public class Address extends BaseEntity {
     public Address() {
     }
 
-    @Column(name = "ADDR_TYPE", length = 5, nullable = false)
+    @Column(name = "ADDR_TYPE", length = ValidationConstrains.ADDRESS_TYPE_MAX_LENGTH, nullable = false)
     public String getAddressType() {
         return addressType;
     }
@@ -22,7 +24,7 @@ public class Address extends BaseEntity {
         this.addressType = addressType;
     }
 
-    @Column(name = "ADDR_INFO", length = 300)
+    @Column(name = "ADDR_INFO", length = ValidationConstrains.ADDRESS_INFO_MAX_LENGTH)
     public String getAddressInfo() {
         return addressInfo;
     }

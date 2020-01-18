@@ -1,27 +1,15 @@
 package com.candidate.task.web.models;
 
 public interface BasePersonModel {
-    public String getFullName();
+    String getFullName();
 
-    public void setFullName(String fullName);
+    String getPin();
 
-    public String getPin();
+    String getEmailType();
 
-    public void setPin(String pin);
+    String getEmail();
 
-    public String getEmailType();
+    String getAddressType();
 
-    public void setEmailType(String emailType);
-
-    public String getEmail();
-
-    public void setEmail(String email);
-
-    public String getAddressType();
-
-    public void setAddressType(String addressType);
-
-    public String getAddressInfo();
-
-    public void setAddressInfo(String addressInfo);
+    String getAddressInfo();
 }

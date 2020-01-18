@@ -1,17 +1,20 @@
 package com.candidate.task.errors;
 
+import com.candidate.task.constants.ExceptionConstants;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Email not found!")
-public class EmailNotFoundException extends RuntimeException {
+import java.sql.SQLException;
+
+@ResponseStatus(code = HttpStatus.NOT_FOUND, reason = ExceptionConstants.MISSING_PERSON_ID_REASON)
+public class MissingPersonException extends RuntimeException {
     private int statusCode;
 
-    public EmailNotFoundException() {
+    public MissingPersonException() {
         this.statusCode = 404;
     }
 
-    public EmailNotFoundException(String message) {
+    public MissingPersonException(String message) {
         super(message);
         this.statusCode = 404;
     }

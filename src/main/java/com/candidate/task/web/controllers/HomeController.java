@@ -1,13 +1,13 @@
 package com.candidate.task.web.controllers;
 
-import com.candidate.task.errors.EmailNotFoundException;
+import com.candidate.task.errors.MissingPersonException;
 import com.candidate.task.errors.PersonNotFoundException;
 import com.candidate.task.service.models.PersonServiceModel;
 import com.candidate.task.service.services.PeopleService;
 import com.candidate.task.validation.PersonValidator;
 import com.candidate.task.web.models.EditPersonModel;
 import com.candidate.task.web.models.FindPersonModel;
-import com.candidate.task.web.models.InsertPersonModel;
+import com.candidate.task.web.models.AddPersonModel;
 import com.candidate.task.web.models.PersonViewModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,14 +52,14 @@ public class HomeController extends BaseController {
     }
 
     @GetMapping("/add")
-    public ModelAndView insertPerson(ModelAndView modelAndView, @ModelAttribute(name = "model") InsertPersonModel model) {
+    public ModelAndView insertPerson(ModelAndView modelAndView, @ModelAttribute(name = "model") AddPersonModel model) {
         modelAndView.addObject("model", model);
 
         return super.view("add-person");
     }
 
     @PostMapping("/add")
-    public ModelAndView insertConfirm(@Valid ModelAndView modelAndView, @ModelAttribute(name = "model") InsertPersonModel model
+    public ModelAndView insertConfirm(@Valid ModelAndView modelAndView, @ModelAttribute(name = "model") AddPersonModel model
             , BindingResult bindingResult) {
 
         this.personValidator.validate(model, bindingResult);
@@ -70,7 +70,7 @@ public class HomeController extends BaseController {
             return super.view("add-person.html", modelAndView);
         }
 
-        PersonServiceModel personServiceModel = this.peopleService.insertPeople(this.modelMapper.map(model, PersonServiceModel.class));
+        PersonServiceModel personServiceModel = this.peopleService.addPeople(this.modelMapper.map(model, PersonServiceModel.class));
 
         modelAndView.addObject("successInsertMessage", personServiceModel.getFullName());
 
@@ -128,7 +128,15 @@ public class HomeController extends BaseController {
         return super.view("index.html", modelAndView);
     }
 
+    @GetMapping("/seed")
+    public ModelAndView fillInTables() {
+        boolean isSeeded = this.peopleService.seedPeopleEmailsAndAddresses();
 
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("successfulSeedTables", isSeeded);
+
+        return super.view("index.html", modelAndView);
+    }
 
     @ExceptionHandler({PersonNotFoundException.class})
     public ModelAndView handlePersonNotFoundException(PersonNotFoundException e) {
@@ -139,8 +147,8 @@ public class HomeController extends BaseController {
         return modelAndView;
     }
 
-    @ExceptionHandler({EmailNotFoundException.class})
-    public ModelAndView handleEmailNotFoundException(EmailNotFoundException e) {
+    @ExceptionHandler({MissingPersonException.class})
+    public ModelAndView handleMissingPersonException(MissingPersonException e) {
         ModelAndView modelAndView = new ModelAndView("error.html");
         modelAndView.addObject("message", e.getMessage());
         modelAndView.addObject("statusCode", e.getStatusCode());
@@ -150,9 +158,6 @@ public class HomeController extends BaseController {
 }
 
 
-//TODO Изваждане на повтарящата се логика от валидаторите в базов клас!!!!
 //TODO VALIDATION!!!!
 //TODO Поазване на вцички параметри на All People 6бр.!!!!
-//TODO При натискане на сърч с празен вход мята грешка.!!!!
 //TODO При повторно дитване с корекция на .!!!!
-//TODO Да се изтрие MailNotFoundException ако не се ползва!!!!

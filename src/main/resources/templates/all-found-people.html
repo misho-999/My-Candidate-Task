@@ -6,8 +6,6 @@
     <th:block th:include="~{fragments/head}"/>
 </head>
 
-<link rel="stylesheet" href="/css/allDestinations.css">
-
 <body class="container-fluid destinations">
 
 <header>
@@ -15,23 +13,25 @@
 </header>
 
 <main class="mt-3 bg-blur">
-    <h1 class="text-center welcome">All People</h1>
-
+    <div class="container-fluid text-center">
+        <h1 class="text-primary p-4">All People</h1>
+    </div>
     <table class="table table-hover w-75 mx-auto label-color font-weight-bold">
         <thead>
         <tr class="row mx-auto">
             <th class="col-md-1 text-center">#</th>
-            <th class="col-md-2 text-center">Full Name</th>
-            <th class="col-md-1 text-center">PIN</th>
+            <th class="col-md-5 text-center">Full Name</th>
+            <th class="col-md-3 text-center">PIN</th>
+            <th class="col-md-3 text-center"></th>
         </tr>
         </thead>
         <tbody id="destinations-table">
         <th:block th:each="person, iter : ${people}">
             <tr class="row mx-auto">
                 <td class="col-md-1 text-center" th:text="${iter.index + 1}"></td>
-                <td class="col-md-1 text-center" th:text="${person.fullName}"></td>
-                <td class="col-md-2 text-center" th:text="${person.pin}"></td>
-                <td class="col-md-5 text-left add-button">
+                <td class="col-md-5 text-center" th:text="${person.fullName}"></td>
+                <td class="col-md-3 text-center" th:text="${person.pin}"></td>
+                <td class="col-md-3 text-left add-button">
                     <ul class="nav">
                         <li>
                             <a th:href="@{/edit/{id}(id=${person.id})}"

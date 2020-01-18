@@ -8,10 +8,13 @@
             <ul class="navbar-nav mr-auto">
 
                 <li class="nav-item">
-                    <a class="nav-link"  th:href="@{/}">Index Page</a>
+                    <a class="nav-link mr-5"  th:href="@{/}">Index Page</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/add}">Add Person</a>
+                    <a class="nav-link ml-5 mr-5"  th:href="@{/seed}">Seed Tables</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link ml-5" mr-5 th:href="@{/add}">Add Person</a>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0" th:action="@{/find}" method="post" th:object="${model}">

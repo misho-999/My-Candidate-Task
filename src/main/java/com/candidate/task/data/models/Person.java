@@ -1,5 +1,7 @@
 package com.candidate.task.data.models;
 
+import com.candidate.task.constants.ValidationConstrains;
+
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
@@ -18,7 +20,7 @@ public class Person extends BaseEntity {
         this.addresses = new ArrayList<>();
     }
 
-    @Column(name = "FULL_NAME", length = 90, nullable = false)
+    @Column(name = "FULL_NAME", length = ValidationConstrains.FULL_NAME_MAX_LENGTH, nullable = false)
     public String getFullName() {
         return fullName;
     }
@@ -27,7 +29,7 @@ public class Person extends BaseEntity {
         this.fullName = fullName;
     }
 
-    @Column(name = "PIN", length = 10)
+    @Column(name = "PIN", length = ValidationConstrains.PIN_LENGTH)
     public String getPin() {
         return pin;
     }
