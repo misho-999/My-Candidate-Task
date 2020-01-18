@@ -33,7 +33,7 @@ public class Address extends BaseEntity {
         this.addressInfo = addressInfo;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "T_PEOPLE_ID", referencedColumnName = "ID")
     public Person getPerson() {
         return person;

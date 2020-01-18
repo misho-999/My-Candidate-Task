@@ -8,7 +8,7 @@ public final class ValidationConstrains {
 
     public static final int EMAIL_TYPE_MAX_LENGTH = 5;
     public static final int EMAIL_MAX_LENGTH = 40;
-    public static final String EMAIL_REGEX = "^[a-zA-Z0-9_!#$%&'*+\\/=?`{|}~^.-]{3,}@[a-zA-Z0-9]{2,}\\.[a-zA-Z0-9]{2,}";
+    public static final String EMAIL_REGEX = "^[a-zA-Z0-9_!#$%&'*+\\/=?`{|}~^.-]{3,}@[a-zA-Z0-9]{2,}\\.[a-zA-Z]{2,}";
 
     public static final int ADDRESS_TYPE_MAX_LENGTH = 5;
     public static final int ADDRESS_INFO_MAX_LENGTH = 300;

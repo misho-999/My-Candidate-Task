@@ -77,20 +77,26 @@ public class PeopleServiceImpl implements PeopleService {
 
     @Override
     public PersonServiceModel addPeople(PersonServiceModel personServiceModel) {
-        Person person = this.modelMapper.map(personServiceModel, Person.class);
-        Mail mail = this.modelMapper.map(personServiceModel, Mail.class);
-        Address address = this.modelMapper.map(personServiceModel, Address.class);
+        Person person = new Person();
+        person.setFullName(personServiceModel.getFullName());
+        person.setPin(personServiceModel.getPin());
+
+        Mail mail = new Mail();
+        mail.setEmailType(personServiceModel.getEmailType());
+        mail.setEmail(personServiceModel.getEmail());
+
+        Address address = new Address();
+        address.setAddressType(personServiceModel.getAddressType());
+        address.setAddressInfo(personServiceModel.getAddressInfo());
+
+        person.setMail(mail);
+        person.setAddress(address);
 
         address.setPerson(person);
         mail.setPerson(person);
 
-        person.getMails().add(mail);
-        person.getAddresses().add(address);
-
         this.peopleRepository.save(person);
-
         this.addressRepository.save(address);
-
         this.mailRepository.save(mail);
 
         return personServiceModel;
@@ -107,11 +113,21 @@ public class PeopleServiceImpl implements PeopleService {
         person.setFullName(personServiceModel.getFullName());
         person.setPin(personServiceModel.getPin());
 
-        mail.setEmailType(personServiceModel.getEmailType());
-        mail.setEmail(personServiceModel.getEmail());
+        if (mail == null) {
+            this.seedRepository.createMail(id, personServiceModel.getEmailType(), personServiceModel.getEmail());
+        } else {
+            mail.setEmailType(personServiceModel.getEmailType());
+            mail.setEmail(personServiceModel.getEmail());
+        }
 
-        address.setAddressType(personServiceModel.getAddressType());
-        address.setAddressInfo(personServiceModel.getAddressInfo());
+        if (address == null) {
+            this.seedRepository.createAddress(id, personServiceModel.getAddressType(), personServiceModel.getAddressInfo());
+
+        } else {
+            address.setAddressType(personServiceModel.getAddressType());
+            address.setAddressInfo(personServiceModel.getAddressInfo());
+        }
+
 
         this.mailRepository.save(mail);
         this.addressRepository.save(address);

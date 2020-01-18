@@ -20,7 +20,8 @@ public class SeedRepository {
                 "('Ivan Ivanov', 'JAKSLD897'),\n" +
                 "('Gosho-Goshev', '1234567890'),\n" +
                 "('Gosho-Goshev', '789DKSJA78'),\n" +
-                "('Pesho Peshov','9805256053'),\n" +
+                "('Canko Georgiev','9805256053'),\n" +
+                "('Gaco Bacov','FR05256053'),\n" +
                 "('Dragan Petkanov', '1234567890');\n")
                 .executeUpdate();
     }
@@ -41,12 +42,32 @@ public class SeedRepository {
     @Transactional
     public void seedAddresses() {
         this.entityManager.createNativeQuery("INSERT INTO t_addresses (ADDR_TYPE, ADDR_INFO, T_PEOPLE_ID) VALUES('PERM', 'Sofia, Maldos 1, bl 142', 6),\n" +
-                "('PERM', 'Sofia, Luilin 9, bl 952', 5),\n" +
-                "('TEMP', 'Plovdiv, Trakia, bl 152', 6),\n" +
-                "('TEMP', 'Sofia, Belite Brezi 25', 5),\n" +
-                "('PERM', 'Varna, Vladislavovo, bl 88', 3),\n" +
-                "('TEMP', 'Burgas, Meden Rudnik, bl 23', 1),\n" +
-                "('PERM', 'Sara zagora, Trite Chuchura 55', 2);")
+                "('PERM', 'Sofia, Luilin 9, bl 952', 1),\n" +
+                "('TEMP', 'Plovdiv, Trakia, bl 152', 2),\n" +
+                "('TEMP', 'Sofia, Belite Brezi 25', 3),\n" +
+                "('PERM', 'Sofia, Ivan Vazov 25', 4),\n" +
+                "('PERM', 'Varna, Vladislavovo, bl 88', 5),\n" +
+                "('TEMP', 'Burgas, Meden Rudnik, bl 23', 6),\n" +
+                "('PERM', 'Sara zagora, Trite Chuchura 55', 7);")
+                .executeUpdate();
+    }
+
+    @Transactional
+    public void createMail(Long id, String emailType, String email) {
+        this.entityManager.createNativeQuery("INSERT INTO t_mails (EMAIL, EMAIL_TYPE, T_PEOPLE_ID) " +
+                "VALUES (?, ?, ?)")
+                .setParameter(1, email)
+                .setParameter(2, emailType)
+                .setParameter(3, id)
+                .executeUpdate();
+    }
+
+    @Transactional
+    public void createAddress(Long id, String addressType, String addressInfo) {
+        this.entityManager.createNativeQuery("INSERT INTO t_addresses (ADDR_TYPE, ADDR_INFO, T_PEOPLE_ID) VALUES (?, ?, ?)")
+                .setParameter(1, addressType)
+                .setParameter(2, addressInfo)
+                .setParameter(3, id)
                 .executeUpdate();
     }
 }

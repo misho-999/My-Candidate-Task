@@ -30,10 +30,10 @@
         </th:block>
 
         <th:block th:switch="${successfulSeedTables}">
-            <div th:case="true" class="text-success h3"><p th:text="'Successfully Seeded People, Mail, and Addresses!'">
+            <div th:case="true" class="text-success h3"><p th:text="'Successfully Seeded People, Mails, and Addresses! Seed must be only once!'">
             </div>
             <div th:case="false" class="text-warning h3"><p
-                    th:text="'People, Mail, and Addresses are alreasy Seeded!'"></div>
+                    th:text="'People, Mails, and Addresses are already Seeded!'"></div>
         </th:block>
     </div>
 </main>

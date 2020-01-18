@@ -3,21 +3,16 @@ package com.candidate.task.data.models;
 import com.candidate.task.constants.ValidationConstrains;
 
 import javax.persistence.*;
-import javax.validation.constraints.Pattern;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "T_PEOPLE")
 public class Person extends BaseEntity {
     private String fullName;
     private String pin;
-    private List<Mail> mails;
-    private List<Address> addresses;
+    private Mail mail;
+    private Address address;
 
     public Person() {
-        this.mails = new ArrayList<>();
-        this.addresses = new ArrayList<>();
     }
 
     @Column(name = "FULL_NAME", length = ValidationConstrains.FULL_NAME_MAX_LENGTH, nullable = false)
@@ -38,22 +33,21 @@ public class Person extends BaseEntity {
         this.pin = pin;
     }
 
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
-    public List<Mail> getMails() {
-        return mails;
+    @OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
+    public Mail getMail() {
+        return mail;
     }
 
-    public void setMails(List<Mail> mails) {
-        this.mails = mails;
+    public void setMail(Mail mail) {
+        this.mail = mail;
     }
 
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
-    public List<Address> getAddresses() {
-        return addresses;
+    @OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
+    public Address getAddress() {
+        return address;
     }
 
-    public void setAddresses(List<Address> addresses) {
-        this.addresses = addresses;
+    public void setAddress(Address address) {
+        this.address = address;
     }
-
 }
