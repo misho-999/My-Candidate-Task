@@ -56,7 +56,8 @@ public class PersonValidator implements org.springframework.validation.Validator
                     ValidationMessages.PIN_LENGTH);
         }
 
-        if (personModel.getEmailType().length() > ValidationConstrains.EMAIL_TYPE_MAX_LENGTH) {
+        if (personModel.getEmailType().length() > ValidationConstrains.EMAIL_TYPE_MAX_LENGTH
+                || personModel.getEmailType().length() == 0) {
             errors.rejectValue(
                     "emailType",
                     ValidationMessages.EMAIL_TYPE_TOO_LONG,
@@ -78,7 +79,8 @@ public class PersonValidator implements org.springframework.validation.Validator
                     ValidationMessages.EMAIL_NOT_MATCH);
         }
 
-        if (personModel.getAddressType().length() > ValidationConstrains.ADDRESS_TYPE_MAX_LENGTH) {
+        if (personModel.getAddressType().length() > ValidationConstrains.ADDRESS_TYPE_MAX_LENGTH
+                || personModel.getAddressType().length() == 0) {
             errors.rejectValue(
                     "addressType",
                     ValidationMessages.ADDRESS_TYPE_TOO_LONG,

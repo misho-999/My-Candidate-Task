@@ -2,6 +2,7 @@ package com.candidate.task.web.controllers;
 
 import com.candidate.task.errors.MissingPersonException;
 import com.candidate.task.errors.PersonNotFoundException;
+import com.candidate.task.errors.SearchBoxException;
 import com.candidate.task.service.models.PersonServiceModel;
 import com.candidate.task.service.services.PeopleService;
 import com.candidate.task.validation.PersonValidator;
@@ -155,9 +156,13 @@ public class HomeController extends BaseController {
 
         return modelAndView;
     }
+
+    @ExceptionHandler({SearchBoxException.class})
+    public ModelAndView handleSearchBoxException(SearchBoxException e) {
+        ModelAndView modelAndView = new ModelAndView("error.html");
+        modelAndView.addObject("message", e.getMessage());
+        modelAndView.addObject("statusCode", e.getStatusCode());
+
+        return modelAndView;
+    }
 }
-
-
-//TODO VALIDATION!!!!
-//TODO Поазване на вцички параметри на All People 6бр.!!!!
-//TODO При повторно дитване с корекция на .!!!!

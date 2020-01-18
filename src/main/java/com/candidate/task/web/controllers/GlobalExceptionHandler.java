@@ -12,9 +12,7 @@ public class GlobalExceptionHandler extends BaseController {
         ModelAndView modelAndView = new ModelAndView("error.html");
         String s = e.toString();
 
-
         modelAndView.addObject(e.getMessage());
-
 
         return modelAndView;
     }

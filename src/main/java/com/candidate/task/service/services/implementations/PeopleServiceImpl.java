@@ -11,6 +11,7 @@ import com.candidate.task.data.repositories.PeopleRepository;
 import com.candidate.task.data.repositories.SeedRepository;
 import com.candidate.task.errors.MissingPersonException;
 import com.candidate.task.errors.PersonNotFoundException;
+import com.candidate.task.errors.SearchBoxException;
 import com.candidate.task.service.models.PersonServiceModel;
 import com.candidate.task.service.services.PeopleService;
 import org.modelmapper.ModelMapper;
@@ -42,6 +43,10 @@ public class PeopleServiceImpl implements PeopleService {
 
     @Override
     public List<PersonServiceModel> findPeopleByFullName(String fullName) {
+        if (fullName.equals("")){
+            throw new SearchBoxException(ExceptionConstants.EMPTY_SEARCH_BOX);
+        }
+
         List<Person> people = this.peopleRepository.findAllByFullName(fullName);
 
         if (people.size() == 0) {
